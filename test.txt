@@ -1,0 +1,8 @@
+Circle c = new Circle();
+c.setFill(Paint.valueOf("BURLYWOOD"));
+c.setRadius(5);
+Rectangle r = new Rectangle();
+r.setFill(Paint.valueOf("BROWN"));
+r.setWidth(10);
+r.setHeight(30);
+Shape s = Shape.union(r, c);

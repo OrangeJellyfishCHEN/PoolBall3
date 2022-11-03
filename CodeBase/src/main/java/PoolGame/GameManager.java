@@ -1,15 +1,23 @@
 package PoolGame;
 
 import PoolGame.objects.*;
+
+import java.awt.*;
 import java.util.ArrayList;
 
+import javafx.css.converter.ShapeConverter;
 import javafx.geometry.Point2D;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
+import javafx.scene.ImageCursor;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.Scene;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Paint;
 import javafx.scene.canvas.Canvas;
@@ -90,7 +98,11 @@ public class GameManager {
 
         // Cue
         if (this.cue != null && cueActive) {
-            gc.strokeLine(cue.getStartX(), cue.getStartY(), cue.getEndX(), cue.getEndY());
+            //gc.strokeLine(cue.getStartX(), cue.getStartY(), cue.getEndX(), cue.getEndY());
+            gc.setFill(Paint.valueOf("Brown"));
+            gc.fillRect(cue.getEndX(), cue.getEndY() + 5, 10, 100);
+            gc.setFill(Paint.valueOf("BURLYWOOD"));
+            gc.fillOval(cue.getEndX(), cue.getEndY(), 10, 10);
         }
 
         for (Ball ball : balls) {
@@ -216,7 +228,7 @@ public class GameManager {
 
     /**
      * Sets the table of the game.
-     * 
+     *
      * @param table
      */
     public void setTable(Table table) {
@@ -232,7 +244,7 @@ public class GameManager {
 
     /**
      * Sets the balls of the game.
-     * 
+     *
      * @param balls
      */
     public void setBalls(ArrayList<Ball> balls) {
@@ -242,7 +254,7 @@ public class GameManager {
     /**
      * Hits the ball with the cue, distance of the cue indicates the strength of the
      * strike.
-     * 
+     *
      * @param ball
      */
     private void hitBall(Ball ball) {
@@ -266,7 +278,7 @@ public class GameManager {
 
     /**
      * Changes values of balls based on collision (if ball is null ignore it)
-     * 
+     *
      * @param changes
      * @param ballA
      * @param ballB
@@ -282,7 +294,7 @@ public class GameManager {
 
     /**
      * Sets the cue to be drawn on click, and manages cue actions
-     * 
+     *
      * @param pane
      */
     private void setClickEvents(Pane pane) {
@@ -306,7 +318,7 @@ public class GameManager {
     /**
      * Checks if two balls are colliding.
      * Used Exercise 6 as reference.
-     * 
+     *
      * @param ballA
      * @param ballB
      * @return true if colliding, false otherwise
@@ -338,7 +350,7 @@ public class GameManager {
      *         new delta x,y vector for ball B.
      */
     public static Pair<Point2D, Point2D> calculateCollision(Point2D positionA, Point2D velocityA, double massA,
-            Point2D positionB, Point2D velocityB, double massB, boolean isCue) {
+                                                            Point2D positionB, Point2D velocityB, double massB, boolean isCue) {
 
         // Find the angle of the collision - basically where is ball B relative to ball
         // A. We aren't concerned with

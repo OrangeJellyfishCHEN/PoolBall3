@@ -57,7 +57,7 @@ public class App extends Application {
         if (args.size() > 0) {
             configPath = args.get(0);
         } else {
-            configPath = "src/main/resources/config.json";
+            configPath = "src/main/resources/config_normal.json";
         }
         return configPath;
     }
