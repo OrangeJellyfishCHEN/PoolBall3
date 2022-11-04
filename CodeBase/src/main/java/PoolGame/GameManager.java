@@ -5,6 +5,8 @@ import PoolGame.objects.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+import PoolGame.observer.Observer;
+import PoolGame.observer.Subject;
 import javafx.css.converter.ShapeConverter;
 import javafx.geometry.Point2D;
 
@@ -13,6 +15,7 @@ import javafx.animation.Timeline;
 
 import javafx.scene.ImageCursor;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.Scene;
@@ -30,7 +33,7 @@ import javafx.util.Pair;
 /**
  * Controls the game interface; drawing objects, handling logic and collisions.
  */
-public class GameManager {
+public class GameManager{
     private Table table;
     private ArrayList<Ball> balls = new ArrayList<Ball>();
     private Line cue;

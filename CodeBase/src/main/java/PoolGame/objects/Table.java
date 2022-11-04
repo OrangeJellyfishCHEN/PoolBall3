@@ -1,24 +1,25 @@
 package PoolGame.objects;
 
+import PoolGame.observer.Observer;
 import javafx.scene.paint.Paint;
 import java.util.List;
 import java.util.ArrayList;
 
 /** Holds properties of the table object. */
-public class Table {
+public class Table{
 
     private Paint colour;
     private Long xLength;
     private Long yLength;
     private Double friction;
     private List<Pocket> pockets = new ArrayList<Pocket>();
+    private String hardLevel;
 
     public Table(String colour, Long xLength, Long yLength, Double friction) {
         this.colour = Paint.valueOf(colour);
         this.xLength = xLength;
         this.yLength = yLength;
         this.friction = friction;
-        initialisePockets();
     }
 
     /**
@@ -66,16 +67,23 @@ public class Table {
         return pockets;
     }
 
+    public void addPocket(Pocket newPocket){
+        this.pockets.add(newPocket);
+    }
+
     /**
      * Initialises the pockets of the table.
      */
-    private void initialisePockets() {
+    /*private void initialisePockets() {
         pockets.add(new Pocket(10, 10));
         pockets.add(new Pocket(xLength - 10, 10));
         pockets.add(new Pocket(xLength / 2, 10));
         pockets.add(new Pocket(10, yLength - 10));
         pockets.add(new Pocket(xLength - 10, yLength - 10));
         pockets.add(new Pocket(xLength / 2, yLength - 10));
-    }
+    }*/
 
+    public void clearAll(){
+        this.pockets = new ArrayList<>();
+    }
 }

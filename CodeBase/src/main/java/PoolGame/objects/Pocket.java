@@ -9,10 +9,10 @@ public class Pocket {
     private double yPosition;
     private double radius;
 
-    public Pocket(double xPosition, double yPosition) {
+    public Pocket(double xPosition, double yPosition, double radius) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.radius = 15;
+        this.radius = radius;
     }
 
     /**
