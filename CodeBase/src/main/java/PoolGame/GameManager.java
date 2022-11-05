@@ -1,7 +1,10 @@
 package PoolGame;
 
+import PoolGame.memento.Caretaker;
+import PoolGame.memento.SnapShot;
 import PoolGame.objects.*;
 
+import java.awt.desktop.SystemEventListener;
 import java.util.ArrayList;
 
 import PoolGame.observer.Observer;
@@ -12,6 +15,7 @@ import javafx.geometry.Point2D;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
+import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Line;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -44,6 +48,7 @@ public class GameManager implements Subject{
     private int ballInHole;
     private GameTimer timer = GameTimer.getInstance();
     private ArrayList<Observer> observers = new ArrayList<>();
+    private Caretaker caretaker = new Caretaker();
 
     /**
      * Initialises timeline and cycle count.
@@ -66,6 +71,7 @@ public class GameManager implements Subject{
         Canvas canvas = new Canvas(table.getxLength() + TABLEBUFFER * 2, table.getyLength() + TABLEBUFFER * 2);
         gc = canvas.getGraphicsContext2D();
         pane.getChildren().add(canvas);
+        this.changeLevel();
     }
 
     /**
@@ -308,6 +314,7 @@ public class GameManager implements Subject{
         pane.setOnMouseDragged(event -> {
             cue.setEndX(event.getX());
             cue.setEndY(event.getY());
+            caretaker.saveSnapShot(saveState());
         });
 
         pane.setOnMouseReleased(event -> {
@@ -411,5 +418,38 @@ public class GameManager implements Subject{
             this.Attach(b);
         }
         this.Attach(timer);
+        this.Attach(caretaker);
+    }
+
+    // undo
+
+    public SnapShot saveState(){
+        ArrayList<Ball> ballsCur = new ArrayList<>();
+        for(Ball b: this.balls){
+            if (b.clone() != null){
+                ballsCur.add(b.clone());
+            }
+        }
+
+        long currentTime = System.currentTimeMillis();
+        int currentScore = this.score;
+        return new SnapShot(ballsCur, currentTime, currentScore);
+    }
+
+    public void recoverState(SnapShot s){
+        if (s != null){
+            this.balls = s.getCurrentBalls();
+            this.timer.undo(s.getTimeOfSnap());
+            this.score = s.getScore();
+        }
+    }
+
+    public void changeLevel(){
+        addAllObservers();
+        reset();
+    }
+
+    public Caretaker getCaretaker() {
+        return caretaker;
     }
 }

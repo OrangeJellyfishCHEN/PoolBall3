@@ -54,8 +54,7 @@ public class App extends Application {
                     tableReader.parse("src/main/resources/config_easy.json", gameManager);
                     pocketReader.parse("src/main/resources/config_easy.json", gameManager);
                     ballReader.parse("src/main/resources/config_easy.json", gameManager);
-                    gameManager.addAllObservers();
-                    gameManager.reset();
+                    gameManager.changeLevel();
                 }
             } else if (e.getCode() == KeyCode.B) {
                 System.out.println("Switch to normal mode");
@@ -64,8 +63,7 @@ public class App extends Application {
                     tableReader.parse("src/main/resources/config_normal.json", gameManager);
                     pocketReader.parse("src/main/resources/config_normal.json", gameManager);
                     ballReader.parse("src/main/resources/config_normal.json", gameManager);
-                    gameManager.addAllObservers();
-                    gameManager.reset();
+                    gameManager.changeLevel();
                 }
             } else if (e.getCode() == KeyCode.C) {
                 System.out.println("Switch to hard mode");
@@ -74,9 +72,12 @@ public class App extends Application {
                     tableReader.parse("src/main/resources/config_hard.json", gameManager);
                     pocketReader.parse("src/main/resources/config_hard.json", gameManager);
                     ballReader.parse("src/main/resources/config_hard.json", gameManager);
-                    gameManager.addAllObservers();
-                    gameManager.reset();
+                    gameManager.changeLevel();
                 }
+            }
+            else if (e.getCode() == KeyCode.U){
+                gameManager.recoverState(gameManager.getCaretaker().getTheLatestSnapShot());
+                System.out.println("recover");
             }
         });
         primaryStage.setScene(gameManager.getScene());

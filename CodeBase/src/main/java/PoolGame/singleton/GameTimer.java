@@ -34,4 +34,9 @@ public class GameTimer implements Observer {
     public void reset(){
         this.start = System.currentTimeMillis();
     }
+
+    public void undo(long newTime){
+        long gap = newTime - start;
+        this.start = System.currentTimeMillis() - gap;
+    }
 }

@@ -6,7 +6,7 @@ import PoolGame.strategy.PocketStrategy;
 import javafx.scene.paint.Paint;
 
 /** Holds information for all ball-related objects. */
-public class Ball implements Observer {
+public class Ball implements Observer, Cloneable {
 
     private Paint colour;
     private double xPosition;
@@ -25,7 +25,7 @@ public class Ball implements Observer {
     private int score;
 
     public Ball(String colour, double xPosition, double yPosition, double xVelocity, double yVelocity, double mass,
-            boolean isCue, PocketStrategy strategy, int score) {
+            boolean isCue, PocketStrategy strategy, int score){
         this.colour = Paint.valueOf(colour);
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -232,5 +232,14 @@ public class Ball implements Observer {
 
     public int getScore() {
         return score;
+    }
+
+    @Override
+    public Ball clone(){
+        try {
+            return (Ball) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 }
