@@ -6,6 +6,7 @@ import java.util.List;
 import PoolGame.singleton.GameTimer;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 /** Main application entry point. */
@@ -78,6 +79,31 @@ public class App extends Application {
             else if (e.getCode() == KeyCode.U){
                 gameManager.recoverState(gameManager.getCaretaker().getTheLatestSnapShot());
                 System.out.println("recover");
+            }
+            // cheat
+            else if (e.getCode() == KeyCode.Q){
+                gameManager.cheat(Paint.valueOf("red"));
+            }
+            else if (e.getCode() == KeyCode.W){
+                gameManager.cheat(Paint.valueOf("yellow"));
+            }
+            else if (e.getCode() == KeyCode.E){
+                gameManager.cheat(Paint.valueOf("green"));
+            }
+            else if (e.getCode() == KeyCode.R){
+                gameManager.cheat(Paint.valueOf("brown"));
+            }
+            else if (e.getCode() == KeyCode.T){
+                gameManager.cheat(Paint.valueOf("blue"));
+            }
+            else if (e.getCode() == KeyCode.Y){
+                gameManager.cheat(Paint.valueOf("purple"));
+            }
+            else if (e.getCode() == KeyCode.O){
+                gameManager.cheat(Paint.valueOf("black"));
+            }
+            else if (e.getCode() == KeyCode.I){
+                gameManager.cheat(Paint.valueOf("orange"));
             }
         });
         primaryStage.setScene(gameManager.getScene());

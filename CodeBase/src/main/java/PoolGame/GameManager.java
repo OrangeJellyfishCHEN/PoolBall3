@@ -122,6 +122,7 @@ public class GameManager implements Subject{
         }
 
         // Timer + Scorer
+        gc.setStroke(Paint.valueOf("orange"));
         gc.setFont(new Font(20));
         gc.strokeText(String.format("Time passed: %d:%02d Score: %d", this.timer.getTimePass()[0], this.timer.getTimePass()[1], score), 10, 20);
 
@@ -140,9 +141,14 @@ public class GameManager implements Subject{
      * Used Exercise 6 as reference.
      */
     public void tick() {
-        if (ballInHole == balls.size() - 1) {
-            winFlag = true;
+        // test win
+        boolean isWin = true;
+        for(Ball b: this.balls){
+            if(b.isActive() && !b.isCue()){
+                isWin = false;
+            }
         }
+        winFlag = isWin;
         for (Ball ball : balls) {
             ball.tick();
 
@@ -451,5 +457,17 @@ public class GameManager implements Subject{
 
     public Caretaker getCaretaker() {
         return caretaker;
+    }
+
+    // cheat
+    public void cheat(Paint colour){
+        int addition = 0;
+        for(Ball b: this.balls){
+            if(b.getColour().equals(colour) && b.isActive()){
+                b.cheat();
+                addition += b.getScore();
+            }
+        }
+        this.score += addition;
     }
 }

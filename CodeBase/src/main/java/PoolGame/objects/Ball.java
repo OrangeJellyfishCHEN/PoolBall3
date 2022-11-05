@@ -83,6 +83,10 @@ public class Ball implements Observer, Cloneable {
         }
     }
 
+    public void cheat(){
+        isActive = false;
+    }
+
     /**
      * Sets x-axis velocity of ball.
      * 
