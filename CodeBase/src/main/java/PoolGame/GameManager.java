@@ -2,25 +2,18 @@ package PoolGame;
 
 import PoolGame.objects.*;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import PoolGame.observer.Observer;
 import PoolGame.observer.Subject;
-import javafx.css.converter.ShapeConverter;
+import PoolGame.singleton.GameTimer;
 import javafx.geometry.Point2D;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
-import javafx.scene.ImageCursor;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Paint;
 import javafx.scene.canvas.Canvas;
@@ -33,7 +26,7 @@ import javafx.util.Pair;
 /**
  * Controls the game interface; drawing objects, handling logic and collisions.
  */
-public class GameManager{
+public class GameManager implements Subject{
     private Table table;
     private ArrayList<Ball> balls = new ArrayList<Ball>();
     private Line cue;
@@ -48,6 +41,9 @@ public class GameManager{
 
     private Scene scene;
     private GraphicsContext gc;
+    private int ballInHole;
+    private GameTimer timer = GameTimer.getInstance();
+    private ArrayList<Observer> observers = new ArrayList<>();
 
     /**
      * Initialises timeline and cycle count.
@@ -119,6 +115,10 @@ public class GameManager{
 
         }
 
+        // Timer + Scorer
+        gc.setFont(new Font(20));
+        gc.strokeText(String.format("Time passed: %d:%02d Score: %d", this.timer.getTimePass()[0], this.timer.getTimePass()[1], score), 10, 20);
+
         // Win
         if (winFlag) {
             gc.setStroke(Paint.valueOf("white"));
@@ -130,14 +130,13 @@ public class GameManager{
     }
 
     /**
-     * Updates positions of all balls, handles logic related to collisions.
+     * Updates positions of all balls, handles logic related to collisions, and time
      * Used Exercise 6 as reference.
      */
     public void tick() {
-        if (score == balls.size() - 1) {
+        if (ballInHole == balls.size() - 1) {
             winFlag = true;
         }
-
         for (Ball ball : balls) {
             ball.tick();
 
@@ -155,7 +154,8 @@ public class GameManager{
                         this.reset();
                     } else {
                         if (ball.remove()) {
-                            score++;
+                            score += ball.getScore();
+                            ballInHole += 1;
                         } else {
                             // Check if when ball is removed, any other balls are present in its space. (If
                             // another ball is present, blue ball is removed)
@@ -215,11 +215,9 @@ public class GameManager{
      * Resets the game.
      */
     public void reset() {
-        for (Ball ball : balls) {
-            ball.reset();
-        }
-
+        this.Notify();
         this.score = 0;
+        this.ballInHole = 0;
     }
 
     /**
@@ -388,5 +386,30 @@ public class GameManager{
         Point2D velBPrime = velocityB.add(collisionVector.multiply(optimizedP).multiply(massA));
 
         return new Pair<>(velAPrime, velBPrime);
+    }
+
+    // cheat function use Observer
+
+    @Override
+    public void Attach(Observer o) {
+        this.observers.add(o);
+    }
+
+    @Override
+    public void Detach(Observer o) {
+        this.observers.remove(o);
+    }
+
+    public void Notify(){
+        for(Observer o: this.observers){
+            o.reset();
+        }
+    }
+
+    public void addAllObservers(){
+        for(Ball b: this.balls){
+            this.Attach(b);
+        }
+        this.Attach(timer);
     }
 }

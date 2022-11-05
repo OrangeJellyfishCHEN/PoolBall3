@@ -18,3 +18,11 @@ When entering config details, please note the following restrictions:
 - Friction must be value between 0 - 1 (not inclusive). [Would reccomend switching between 0.95, 0.9, 0.85 to see changes].
 - Ball X and Y positions must be within the size of the table width and length, including the ball radius (10).
 - Ball colours must be Paint string values as expected.
+
+# Switch Difficult Level
+- Press A to set difficult level to easy (default level is easy/can change default level by args)
+- Press B to set difficult level to normal
+- Press C to set difficult level to hard
+
+# Timer
+- When win the timer will disappear

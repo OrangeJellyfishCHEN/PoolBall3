@@ -1,13 +1,11 @@
 package PoolGame;
 
 import PoolGame.config.*;
-
 import java.util.List;
 
+import PoolGame.singleton.GameTimer;
 import javafx.application.Application;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /** Main application entry point. */
@@ -45,7 +43,6 @@ public class App extends Application {
         Reader ballReader = ballFactory.buildReader();
         ballReader.parse(configPath, gameManager);
         gameManager.buildManager();
-
         // START GAME MANAGER
         gameManager.run();
         primaryStage.setTitle("Pool");
@@ -57,6 +54,8 @@ public class App extends Application {
                     tableReader.parse("src/main/resources/config_easy.json", gameManager);
                     pocketReader.parse("src/main/resources/config_easy.json", gameManager);
                     ballReader.parse("src/main/resources/config_easy.json", gameManager);
+                    gameManager.addAllObservers();
+                    gameManager.reset();
                 }
             } else if (e.getCode() == KeyCode.B) {
                 System.out.println("Switch to normal mode");
@@ -65,6 +64,8 @@ public class App extends Application {
                     tableReader.parse("src/main/resources/config_normal.json", gameManager);
                     pocketReader.parse("src/main/resources/config_normal.json", gameManager);
                     ballReader.parse("src/main/resources/config_normal.json", gameManager);
+                    gameManager.addAllObservers();
+                    gameManager.reset();
                 }
             } else if (e.getCode() == KeyCode.C) {
                 System.out.println("Switch to hard mode");
@@ -73,6 +74,8 @@ public class App extends Application {
                     tableReader.parse("src/main/resources/config_hard.json", gameManager);
                     pocketReader.parse("src/main/resources/config_hard.json", gameManager);
                     ballReader.parse("src/main/resources/config_hard.json", gameManager);
+                    gameManager.addAllObservers();
+                    gameManager.reset();
                 }
             }
         });
@@ -93,6 +96,9 @@ public class App extends Application {
             configPath = args.get(0);
             if (configPath.equals("src/main/resources/config_normal.json")){
                 currentDifficulty = "normal";
+            }
+            else if (configPath.equals("src/main/resources/config_hard.json")){
+                currentDifficulty = "hard";
             }
         } else {
             configPath = "src/main/resources/config_easy.json";

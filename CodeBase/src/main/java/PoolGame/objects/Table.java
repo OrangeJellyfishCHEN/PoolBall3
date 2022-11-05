@@ -13,7 +13,6 @@ public class Table{
     private Long yLength;
     private Double friction;
     private List<Pocket> pockets = new ArrayList<Pocket>();
-    private String hardLevel;
 
     public Table(String colour, Long xLength, Long yLength, Double friction) {
         this.colour = Paint.valueOf(colour);

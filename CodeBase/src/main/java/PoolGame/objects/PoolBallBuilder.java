@@ -68,6 +68,36 @@ public class PoolBallBuilder implements BallBuilder {
             strategy = new BallStrategy();
         }
 
-        return new Ball(colour, xPosition, yPosition, xVelocity, yVelocity, mass, isCue, strategy);
+        return new Ball(colour, xPosition, yPosition, xVelocity, yVelocity, mass, isCue, strategy, this.scoreSelect(colour));
     }
-}
+
+    private int scoreSelect(String colour){
+        if (colour.equals("red")){
+            return 1;
+        }
+        else if (colour.equals("yellow")){
+            return 2;
+        }
+        else if (colour.equals("green")){
+            return 3;
+        }
+        else if (colour.equals("brown")){
+            return 4;
+        }
+        else if (colour.equals("blue")){
+            return 5;
+        }
+        else if (colour.equals("purple")){
+            return 6;
+        }
+        else if (colour.equals("black")){
+            return 7;
+        }
+        else if (colour.equals("orange")){
+            return 8;
+        }
+        else {
+            return 0;
+        }
+        }
+    }

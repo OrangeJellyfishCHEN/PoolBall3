@@ -5,5 +5,5 @@ public interface Subject {
 
     public void Detach(Observer o);
 
-    public void Notify(String difficultLevel);
+    public void Notify();
 }

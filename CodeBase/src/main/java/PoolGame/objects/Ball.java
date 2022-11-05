@@ -1,11 +1,12 @@
 package PoolGame.objects;
 
 import PoolGame.Config;
+import PoolGame.observer.Observer;
 import PoolGame.strategy.PocketStrategy;
 import javafx.scene.paint.Paint;
 
 /** Holds information for all ball-related objects. */
-public class Ball {
+public class Ball implements Observer {
 
     private Paint colour;
     private double xPosition;
@@ -21,9 +22,10 @@ public class Ball {
     private PocketStrategy strategy;
 
     private final double MAXVEL = 20;
+    private int score;
 
     public Ball(String colour, double xPosition, double yPosition, double xVelocity, double yVelocity, double mass,
-            boolean isCue, PocketStrategy strategy) {
+            boolean isCue, PocketStrategy strategy, int score) {
         this.colour = Paint.valueOf(colour);
         this.xPosition = xPosition;
         this.yPosition = yPosition;
@@ -36,6 +38,7 @@ public class Ball {
         this.isCue = isCue;
         this.isActive = true;
         this.strategy = strategy;
+        this.score = score;
     }
 
     /**
@@ -227,4 +230,7 @@ public class Ball {
         return isActive;
     }
 
+    public int getScore() {
+        return score;
+    }
 }
