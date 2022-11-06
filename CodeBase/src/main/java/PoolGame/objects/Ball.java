@@ -52,6 +52,7 @@ public class Ball implements Observer, Cloneable {
     /**
      * Resets ball position, velocity, and activity.
      */
+
     public void reset() {
         resetPosition();
         isActive = true;

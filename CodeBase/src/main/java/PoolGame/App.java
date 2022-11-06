@@ -128,7 +128,7 @@ public class App extends Application {
                 currentDifficulty = "hard";
             }
         } else {
-            configPath = "src/main/resources/config_one.json";
+            configPath = "src/main/resources/config_easy.json";
         }
         return configPath;
     }

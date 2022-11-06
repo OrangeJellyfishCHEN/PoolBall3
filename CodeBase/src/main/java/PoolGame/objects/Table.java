@@ -70,18 +70,6 @@ public class Table{
         this.pockets.add(newPocket);
     }
 
-    /**
-     * Initialises the pockets of the table.
-     */
-    /*private void initialisePockets() {
-        pockets.add(new Pocket(10, 10));
-        pockets.add(new Pocket(xLength - 10, 10));
-        pockets.add(new Pocket(xLength / 2, 10));
-        pockets.add(new Pocket(10, yLength - 10));
-        pockets.add(new Pocket(xLength - 10, yLength - 10));
-        pockets.add(new Pocket(xLength / 2, yLength - 10));
-    }*/
-
     public void clearAll(){
         this.pockets = new ArrayList<>();
     }
