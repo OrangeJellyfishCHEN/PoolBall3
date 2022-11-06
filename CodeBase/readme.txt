@@ -23,6 +23,12 @@ When entering config details, please note the following restrictions:
 - Press A to set difficult level to easy (default level is easy/can change default level by args)
 - Press B to set difficult level to normal
 - Press C to set difficult level to hard
+- after win you can do switching difficulty level
+hard level initial grade is 1 because the config put one ball into the pocket when parse file.
 
 # Timer
 - When win the timer will disappear
+
+# Undo
+- after winning game u cannot do undo
+- 可以撤回每次发球+cheat

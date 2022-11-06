@@ -4,18 +4,19 @@ import PoolGame.memento.Caretaker;
 import PoolGame.memento.SnapShot;
 import PoolGame.objects.*;
 
-import java.awt.desktop.SystemEventListener;
+
 import java.util.ArrayList;
 
 import PoolGame.observer.Observer;
 import PoolGame.observer.Subject;
 import PoolGame.singleton.GameTimer;
+import PoolGame.strategy.BallStrategy;
+import PoolGame.strategy.PocketStrategy;
 import javafx.geometry.Point2D;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
-import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Line;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -46,7 +47,7 @@ public class GameManager implements Subject{
     private Scene scene;
     private GraphicsContext gc;
     private int ballInHole;
-    private GameTimer timer = GameTimer.getInstance();
+    private final GameTimer timer = GameTimer.getInstance();
     private ArrayList<Observer> observers = new ArrayList<>();
     private Caretaker caretaker = new Caretaker();
 
@@ -122,9 +123,19 @@ public class GameManager implements Subject{
         }
 
         // Timer + Scorer
-        gc.setStroke(Paint.valueOf("orange"));
+        gc.setStroke(Paint.valueOf("Orange"));
         gc.setFont(new Font(20));
-        gc.strokeText(String.format("Time passed: %d:%02d Score: %d", this.timer.getTimePass()[0], this.timer.getTimePass()[1], score), 10, 20);
+        gc.strokeText(String.format("Time passed: %d:%02d           Score: %d", this.timer.getTimePass()[0], this.timer.getTimePass()[1], score), 10, 20);
+
+        // help Text
+        gc.setStroke(Paint.valueOf("CORNFLOWERBLUE"));
+        gc.setFont(new Font(15));
+        gc.strokeText("Press U key to undo your last step. After wining or resetting or difficulty level changed, you cannot do undo.", 0,
+                table.getyLength()+ TABLEBUFFER  * 1.8);
+        gc.setStroke(Paint.valueOf("CORNFLOWERBLUE"));
+        gc.setFont(new Font(15));
+        gc.strokeText("Press Q: get all red balls' scores\nPress W: get all yellow balls' scores\nPress E: get all green balls' scores\nPress R: get all brown balls' scores\nPress T: get all blue balls' scores\nPress Y: get all purple balls' scores\nPress I: get all orange balls' scores\nPress O: get all black balls' scores\nPress A: change difficulty level to easy\nPress B: change difficulty level to normal\nPress C: change difficulty level to hard\n", table.getxLength() * 0.74,
+                20);
 
         // Win
         if (winFlag) {
@@ -149,6 +160,10 @@ public class GameManager implements Subject{
             }
         }
         winFlag = isWin;
+        // win and the timer stops
+        if (winFlag){
+            this.timer.reset();
+        }
         for (Ball ball : balls) {
             ball.tick();
 
@@ -432,8 +447,11 @@ public class GameManager implements Subject{
     public SnapShot saveState(){
         ArrayList<Ball> ballsCur = new ArrayList<>();
         for(Ball b: this.balls){
-            if (b.clone() != null){
-                ballsCur.add(b.clone());
+            Ball cur = b.clone();
+            PocketStrategy s = b.getStrategy().clone();
+            if (cur != null && s != null){
+                cur.setStrategy(s);
+                ballsCur.add(cur);
             }
         }
 
@@ -443,10 +461,12 @@ public class GameManager implements Subject{
     }
 
     public void recoverState(SnapShot s){
-        if (s != null){
+        if (s != null && !winFlag){
             this.balls = s.getCurrentBalls();
             this.timer.undo(s.getTimeOfSnap());
             this.score = s.getScore();
+            this.caretaker.reset();
+            this.addAllObservers();
         }
     }
 
@@ -459,8 +479,9 @@ public class GameManager implements Subject{
         return caretaker;
     }
 
-    // cheat
+    // record to state and cheat
     public void cheat(Paint colour){
+        caretaker.saveSnapShot(this.saveState());
         int addition = 0;
         for(Ball b: this.balls){
             if(b.getColour().equals(colour) && b.isActive()){

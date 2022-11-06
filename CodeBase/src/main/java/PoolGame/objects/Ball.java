@@ -246,4 +246,12 @@ public class Ball implements Observer, Cloneable {
             return null;
         }
     }
+
+    public PocketStrategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(PocketStrategy strategy) {
+        this.strategy = strategy;
+    }
 }

@@ -20,10 +20,6 @@ public class GameTimer implements Observer {
     }
 
     public int[] getTimePass() {
-        /*int minute = secondPass / 60;
-        int second = secondPass % 60;
-        int[] time = new int[]{minute, second};
-        return time;*/
         long current = System.currentTimeMillis() - this.start;
         int secondPass = (int) current / 1000;
         int sec = secondPass % 60;

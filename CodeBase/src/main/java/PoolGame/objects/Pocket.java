@@ -1,9 +1,10 @@
 package PoolGame.objects;
 
 import PoolGame.Config;
+import PoolGame.observer.Observer;
 
 /** Holds information for all pocket-related objects. */
-public class Pocket {
+public class Pocket{
 
     private double xPosition;
     private double yPosition;

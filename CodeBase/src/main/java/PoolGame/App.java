@@ -3,7 +3,6 @@ package PoolGame;
 import PoolGame.config.*;
 import java.util.List;
 
-import PoolGame.singleton.GameTimer;
 import javafx.application.Application;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Paint;
@@ -77,7 +76,8 @@ public class App extends Application {
                 }
             }
             else if (e.getCode() == KeyCode.U){
-                gameManager.recoverState(gameManager.getCaretaker().getTheLatestSnapShot());
+                gameManager.recoverState(gameManager.getCaretaker().recover());
+
                 System.out.println("recover");
             }
             // cheat
@@ -128,7 +128,7 @@ public class App extends Application {
                 currentDifficulty = "hard";
             }
         } else {
-            configPath = "src/main/resources/config_easy.json";
+            configPath = "src/main/resources/config_one.json";
         }
         return configPath;
     }
