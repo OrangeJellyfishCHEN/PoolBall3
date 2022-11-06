@@ -1,6 +1,6 @@
 package PoolGame.config;
 
-/** Interface for building readers. */
+/** Factory Class for building readers. */
 public class TableReaderFactory implements ReaderFactory {
     /**
      * Builds a TableReader.
